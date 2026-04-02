@@ -39,6 +39,13 @@ class TodoListsController < ApplicationController
     end
   end
 
+  # POST /api/todolists/:id/complete_all
+  def complete_all
+    CompleteAllTodoItemsJob.perform_later(params[:id])
+
+    redirect_to todo_lists_path, notice: "All items in the list will be marked as completed shortly."
+  end
+
   # DELETE /todolists/:id
   def destroy
     destroy_todo_list!

@@ -15,7 +15,7 @@
           <%= button_to 'Complete', complete_todo_list_todo_path(@todo_list, item), method: :patch, class: 'btn btn--primary' %>
         <% end %>
         <%= link_to 'Edit', edit_todo_list_todo_path(@todo_list, item), class: 'btn btn--secondary' %>
-        <%= link_to 'Delete', todo_list_todo_path(@todo_list, item), class: 'btn btn--danger', data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+        <%= button_to 'Delete', todo_list_todo_path(@todo_list, item), method: :delete, class: 'btn btn--danger', data: { turbo_confirm: 'Are you sure?' } %>
       </div>
     </li>
   <% end %>

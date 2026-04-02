@@ -49,7 +49,18 @@ RSpec.feature "TodoItems", type: :feature do
 
       visit "/todolists/#{todo_list.id}/todos"
 
-      expect(page).to have_link("Delete")
+      expect(page).to have_button("Delete")
+    end
+
+    it "deletes an item when clicking the delete link" do
+      item = create(:todo_item, todo_list: todo_list)
+
+      visit "/todolists/#{todo_list.id}/todos"
+
+      click_button "Delete"
+
+      expect(page).not_to have_content(item.description)
+      expect(TodoItem.exists?(item.id)).to be false
     end
 
     it "shows a complete button for pending items" do
