@@ -8,7 +8,9 @@ Rails.application.routes.draw do
   end
 
   resources :todo_lists, only: %i[index new edit create update destroy], path: :todolists do
-    resources :todo_items, only: %i[index new create edit update destroy], path: :todos, as: :todos
+    resources :todo_items, only: %i[index new create edit update destroy], path: :todos, as: :todos do
+      member { patch :complete }
+    end
   end
 
   root to: 'todo_lists#index'

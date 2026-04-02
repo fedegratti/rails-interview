@@ -6,9 +6,11 @@
 <ul class="todo-lists__list">
   <% @todo_lists.each do |todo_list| %>
     <li class="todo-lists__item">
-      <span class="todo-lists__id">#<%= todo_list.id %></span>
-      <span class="todo-lists__name"><%= todo_list.name %></span>
-      <span class="todo-lists__count"><%= todo_list.todo_items_count %> items</span>
+      <%= link_to todo_list_todos_path(todo_list), class: 'todo-lists__link' do %>
+        <span class="todo-lists__id">#<%= todo_list.id %></span>
+        <span class="todo-lists__name"><%= todo_list.name %></span>
+        <span class="todo-lists__count"><%= todo_list.todo_items_count %> items</span>
+      <% end %>
       <div class="todo-lists__actions">
         <%= link_to 'Edit', edit_todo_list_path(todo_list), class: 'btn btn--secondary' %>
         <%= link_to 'Delete', todo_list_path(todo_list), class: 'btn btn--danger', data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>

@@ -2,7 +2,7 @@ class TodoItemsController < ApplicationController
   include TodoItemActions
 
   before_action :set_todo_list, only: %i[ new create index ]
-  before_action :set_todo_item, only: %i[ edit update destroy ]
+  before_action :set_todo_item, only: %i[ edit update destroy complete ]
 
   # GET /todolists/:id/todos
   def index
@@ -36,6 +36,12 @@ class TodoItemsController < ApplicationController
     else
       render :edit, status: :unprocessable_entity
     end
+  end
+
+  # PATCH /todolists/:id/todos/:todo_item_id/complete
+  def complete
+    @todo_item.update!(completed: true)
+    redirect_to todo_list_todos_path(@todo_item.todo_list)
   end
 
   # DELETE /todolists/:id/todos/:todo_item_id

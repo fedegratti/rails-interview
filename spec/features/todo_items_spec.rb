@@ -52,6 +52,22 @@ RSpec.feature "TodoItems", type: :feature do
       expect(page).to have_link("Delete")
     end
 
+    it "shows a complete button for pending items" do
+      create(:todo_item, todo_list: todo_list, completed: false)
+
+      visit "/todolists/#{todo_list.id}/todos"
+
+      expect(page).to have_button("Complete")
+    end
+
+    it "does not show a complete button for already completed items" do
+      create(:todo_item, todo_list: todo_list, completed: true)
+
+      visit "/todolists/#{todo_list.id}/todos"
+
+      expect(page).not_to have_button("Complete")
+    end
+
     it "has a back link to todo lists" do
       visit "/todolists/#{todo_list.id}/todos"
 
@@ -149,6 +165,17 @@ RSpec.feature "TodoItems", type: :feature do
       click_link "Back to Todo Lists"
 
       expect(current_path).to eq("/todolists")
+    end
+
+    it "can complete a pending item" do
+      item = create(:todo_item, todo_list: todo_list, completed: false)
+
+      visit "/todolists/#{todo_list.id}/todos"
+
+      click_button "Complete"
+
+      expect(item.reload.completed).to eq(true)
+      expect(current_path).to eq("/todolists/#{todo_list.id}/todos")
     end
   end
 end
