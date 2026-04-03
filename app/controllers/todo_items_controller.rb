@@ -1,7 +1,7 @@
 class TodoItemsController < ApplicationController
   include TodoItemActions
 
-  before_action :set_todo_list, only: %i[ new create index ]
+  before_action :set_todo_list, only: %i[ new edit create index complete autofill ]
   before_action :set_todo_item, only: %i[ edit update destroy complete ]
 
   # GET /todolists/:id/todos
@@ -41,7 +41,18 @@ class TodoItemsController < ApplicationController
   # PATCH /todolists/:id/todos/:todo_item_id/complete
   def complete
     @todo_item.update!(completed: true)
-    redirect_to todo_list_todos_path(@todo_item.todo_list)
+    redirect_to todo_list_todos_path(@todo_list)
+  end
+
+  # POST|PATCH /todolists/:id/todos/:todo_item_id/autofill
+  def autofill
+    description = params.dig(:todo_item, :description).to_s
+
+    content = TodoItems::Autofill.new(description, @todo_list.name).call
+
+    @description = content.presence || description
+
+    respond_to :turbo_stream
   end
 
   # DELETE /todolists/:id/todos/:todo_item_id

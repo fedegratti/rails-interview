@@ -16,6 +16,9 @@ Rails.application.routes.draw do
       member do
         patch :complete
       end
+      collection do
+        match :autofill, via: [:post, :patch]
+      end
     end
   end
 

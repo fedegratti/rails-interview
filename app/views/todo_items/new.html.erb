@@ -16,6 +16,11 @@
     <div class="todo-item-form__group">
       <%= form.label :description %>
       <%= form.text_field :description %>
+      <button type="submit"
+              formaction="<%= autofill_todo_list_todos_path(@todo_list) %>"
+              class="btn btn--secondary">
+        Autofill
+      </button>
     </div>
 
     <div class="todo-item-form__actions">

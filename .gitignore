@@ -35,3 +35,4 @@ rails_interview_test
 /config/master.key
 
 coverage
+.env
